@@ -12,8 +12,8 @@ public class Main {
 		Deck deck = new Deck();
 
 		// Create three hands and print
-		for (int i = 0; i < 3; i++) {
-			System.out.println(new Hand(deck));
+		for (int i = 1; i <= 3; i++) {
+			System.out.println("Hand " + i + ":\n" + new Hand(deck));
 			System.out.println();
 		}
 	}

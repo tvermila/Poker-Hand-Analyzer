@@ -32,7 +32,7 @@ public class Hand {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Cards:\n");
+		sb.append("Cards: ");
 
 		// append cards
 		this.cards.forEach(card -> sb.append(card).append(", "));
