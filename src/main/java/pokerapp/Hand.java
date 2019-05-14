@@ -1,3 +1,7 @@
+/**
+ * @author Tomas Vermilä
+ */
+
 package pokerapp;
 
 import java.util.ArrayList;
@@ -8,7 +12,7 @@ public class Hand {
 	public Hand(Deck deck) {
 		this.cards = deck.deal();
 	}
-	
+
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
@@ -29,26 +33,26 @@ public class Hand {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Cards:\n");
-		
+
 		// append cards
 		this.cards.forEach(card -> sb.append(card).append(", "));
-		
+
 		// remove comma and space at the end
-		sb.replace(sb.length() - 2, sb.length(), ""); 
-		
+		sb.replace(sb.length() - 2, sb.length(), "");
+
 		// append checks
 		sb.append("\nHand contains a two pair: ").append(this.hasTwoPair());
 		sb.append("\nHand contains a straigth: ").append(this.isStraight());
 		sb.append("\nHand contains a flush: ").append(this.isFlush());
 		sb.append("\nHand contains a straight flush: ").append(this.isStraightFlush());
-		
+
 		return sb.toString();
 	}
 
 	public boolean hasTwoPair() {
 		if (this.cards.isEmpty())
 			return false;
-		
+
 		int pairs = 0;
 		for (int i = 0; i < this.numberOfCards() - 1; i++) {
 
@@ -60,7 +64,7 @@ public class Hand {
 					pairs++;
 			}
 		}
-		
+
 		// check if two pair was found
 		if (pairs == 2) {
 			return true;
@@ -72,7 +76,7 @@ public class Hand {
 	public boolean isFlush() {
 		if (this.cards.isEmpty())
 			return false;
-		
+
 		// Pick the first card and check the rest are same suit
 		Suit first = this.cards.get(0).getSuit();
 		for (int i = 1; i < this.numberOfCards(); i++) {
@@ -82,97 +86,46 @@ public class Hand {
 
 		return true;
 	}
-	
+
 	public boolean containsAce() {
 		for (Card c : this.cards) {
 			if (c.getValue().compareTo(Value.ACE) == 0)
 				return true;
-		}		
+		}
 		return false;
 	}
-	
+
 	public void sortByValue() {
 		this.cards.sort((a, b) -> a.getValue().compareTo(b.getValue()));
 	}
-	
+
 	public boolean isStraight() {
 		if (this.cards.isEmpty())
 			return false;
-		
-		//Sort the deck by value
+
+		// Sort the deck by value
 		this.sortByValue();
-		
+
 		// If hand contains an ace, check if it is lower end straight
-		if (this.containsAce() && this.cards.get(0).getValue().equals(Value.TWO) &&
-				this.cards.get(1).getValue().equals(Value.THREE) && this.cards.get(2).getValue().equals(Value.FOUR) &&
-				this.cards.get(3).getValue().equals(Value.FIVE)) {
+		if (this.containsAce() && this.cards.get(0).getValue().equals(Value.TWO)
+				&& this.cards.get(1).getValue().equals(Value.THREE) && this.cards.get(2).getValue().equals(Value.FOUR)
+				&& this.cards.get(3).getValue().equals(Value.FIVE)) {
 			return true;
-		}	
-		
-		// Check whether hand contains a straight	
+		}
+
+		// Check whether hand contains a straight
 		for (int i = 0; i < this.numberOfCards() - 1; i++) {
 			Value a = this.cards.get(i).getValue();
 			Value b = this.cards.get(i + 1).getValue();
 			if (a.ordinal() - b.ordinal() != 1)
 				return false;
-			
-		}		
-		return true;		
+
+		}
+		return true;
 	}
-	
+
 	public boolean isStraightFlush() {
 		return this.isFlush() && this.isStraight();
 	}
-	
-	// Deal two pair to test the hasTwoPair() method
-	public void dealTwoPair() {
-		this.cards.clear();
-		this.cards.add(new Card(Suit.CLUBS, Value.ACE));
-		this.cards.add(new Card(Suit.DIAMONDS, Value.ACE));
-		this.cards.add(new Card(Suit.HEARTS, Value.TWO));
-		this.cards.add(new Card(Suit.CLUBS, Value.EIGHT));
-		this.cards.add(new Card(Suit.SPADES, Value.TWO));
-
-	}
-
-	// Deal flush the test the isFlush() method
-	public void dealFlush() {
-		this.cards.clear();
-		this.cards.add(new Card(Suit.CLUBS, Value.ACE));
-		this.cards.add(new Card(Suit.CLUBS, Value.KING));
-		this.cards.add(new Card(Suit.CLUBS, Value.TWO));
-		this.cards.add(new Card(Suit.CLUBS, Value.EIGHT));
-		this.cards.add(new Card(Suit.CLUBS, Value.FOUR));		
-	}
-	
-	// Deal lower end straight to test the is isStraigth() method
-	public void dealLowerEndStraight() {
-		this.cards.clear();
-		this.cards.add(new Card(Suit.CLUBS, Value.ACE));
-		this.cards.add(new Card(Suit.DIAMONDS, Value.FIVE));
-		this.cards.add(new Card(Suit.CLUBS, Value.THREE));
-		this.cards.add(new Card(Suit.CLUBS, Value.FOUR));
-		this.cards.add(new Card(Suit.SPADES, Value.TWO));		
-	}
-	
-	// Deal higher end straight to test the is isStraigth() method
-	public void dealHigherEndStraight() {
-		this.cards.clear();
-		this.cards.add(new Card(Suit.CLUBS, Value.ACE));
-		this.cards.add(new Card(Suit.DIAMONDS, Value.QUEEN));
-		this.cards.add(new Card(Suit.CLUBS, Value.TEN));
-		this.cards.add(new Card(Suit.CLUBS, Value.KING));
-		this.cards.add(new Card(Suit.SPADES, Value.JACK));		
-	}
-	
-	// Deal straight flush to test the isStraightFlush() method 
-	public void dealStraightFlush() {
-		this.cards.clear();
-		this.cards.add(new Card(Suit.CLUBS, Value.ACE));
-		this.cards.add(new Card(Suit.CLUBS, Value.QUEEN));
-		this.cards.add(new Card(Suit.CLUBS, Value.TEN));
-		this.cards.add(new Card(Suit.CLUBS, Value.KING));
-		this.cards.add(new Card(Suit.CLUBS, Value.JACK));		
-	}	
 
 }
