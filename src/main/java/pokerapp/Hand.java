@@ -1,5 +1,5 @@
 /**
- * @author Tomas Vermilä
+ * @author Tomas Vermilï¿½
  */
 
 package pokerapp;
@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 public class Hand {
 	private ArrayList<Card> cards;
+	
+	public Hand() {
+		this.cards = new ArrayList<>();
+	}
 
 	public Hand(Deck deck) {
 		this.cards = deck.deal();
